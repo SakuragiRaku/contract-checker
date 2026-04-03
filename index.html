@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>契約書・NDAチェッカー</title>
+  <meta name="description" content="AIが契約書のリスク条項をハイライトして解説">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="header-left">
+        <h1>契約書チェッカー</h1>
+        <p class="header-sub">AIがリスク条項をハイライトして解説</p>
+      </div>
+      <div class="header-actions">
+        <button id="theme-toggle" class="icon-btn">🌙</button>
+        <button id="api-key-btn" class="icon-btn">🔑</button>
+      </div>
+    </header>
+
+    <!-- 注意書き -->
+    <div class="disclaimer">
+      <strong>⚠️ 法的注意</strong>
+      <p>本ツールは法的助言を提供するものではありません。AIの分析結果は参考情報であり、重要な契約は必ず弁護士等の専門家に相談してください。</p>
+    </div>
+
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="check">チェック</button>
+      <button class="tab-btn" data-tab="history">履歴</button>
+    </nav>
+
+    <!-- チェックタブ -->
+    <section id="tab-check" class="tab-content active">
+      <form id="contract-form" class="contract-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>契約種別</label>
+            <select id="c-type">
+              <option value="業務委託契約">業務委託契約</option>
+              <option value="NDA(秘密保持契約)">NDA(秘密保持契約)</option>
+              <option value="売買契約">売買契約</option>
+              <option value="雇用契約">雇用契約</option>
+              <option value="利用規約">利用規約</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>自身の立場</label>
+            <select id="c-role">
+              <option value="受注側(業務を受ける側)">受注側(業務を受ける側)</option>
+              <option value="発注側(依頼する側)">発注側(依頼する側)</option>
+              <option value="甲">甲</option>
+              <option value="乙">乙</option>
+              <option value="情報の受領者">情報の受領者</option>
+              <option value="情報の開示者">情報の開示者</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>契約書タイトル (任意)</label>
+          <input type="text" id="c-title" placeholder="例: 〇〇株式会社との業務委託契約書">
+        </div>
+        <div class="form-group">
+          <label>契約書テキスト本文</label>
+          <textarea id="c-text" rows="12" placeholder="契約書のテキストをここに貼り付けてください..." required></textarea>
+        </div>
+        <button type="submit" id="analyze-btn" class="primary-btn">
+          <span class="btn-text">AIでリスクをチェックする</span>
+          <span class="btn-loading" style="display:none;">テキストを分析中...</span>
+        </button>
+      </form>
+
+      <!-- 結果表示エリア -->
+      <div id="result-section" class="result-section" style="display:none;">
+        <div class="result-header">
+          <h2>分析結果サマリー</h2>
+          <div class="risk-score">
+            <span>リスクスコア</span>
+            <span id="risk-score-val" class="score-val">0</span>
+            <span>/ 100</span>
+          </div>
+        </div>
+
+        <!-- 契約書ハイライト表示 -->
+        <div class="highlighted-text-box">
+          <div class="box-header">契約書本文 (リスク箇所ハイライト)</div>
+          <div id="highlighted-text" class="highlighted-content"></div>
+        </div>
+
+        <!-- 解説リスト -->
+        <h3 class="section-title">リスク条項の解説</h3>
+        <div id="analysis-list" class="analysis-list"></div>
+      </div>
+    </section>
+
+    <!-- 履歴タブ -->
+    <section id="tab-history" class="tab-content">
+      <div id="history-empty" class="empty-state">
+        <p>履歴はありません</p>
+      </div>
+      <div id="history-list" class="history-list"></div>
+    </section>
+  </div>
+
+  <script src="ai-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
